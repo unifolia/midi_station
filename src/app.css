@@ -62,7 +62,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   /* background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 35%, #16213e 100%); */
-  background: linear-gradient(135deg, #8fb781 24%, rgb(141, 96, 195) 100%);
+  background: linear-gradient(135deg, #182016 24%, rgb(72, 49, 101) 100%);
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
     sans-serif;
   overflow-x: hidden;
@@ -111,7 +111,11 @@ h1 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
-  margin: 0;
+  margin: 0 0 2rem 0;
+}
+
+h2.form-title {
+  font-size: 2rem;
 }
 
 .card {
@@ -187,6 +191,19 @@ button {
 .nav-bar button {
   margin: 0;
   min-width: 120px;
+
+  &.load-button {
+    position: relative;
+
+    input {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      visibility: hidden;
+      top: 0;
+      left: 0;
+    }
+  }
 }
 
 .forms-container {
@@ -378,7 +395,7 @@ input[type="range"]::-moz-range-thumb:hover {
 }
 
 .form-title-input {
-  width: 100%;
+  width: 90%;
   padding: 0.5rem 0.75rem;
   font-size: 1.1rem;
   font-weight: 400;
@@ -393,6 +410,11 @@ input[type="range"]::-moz-range-thumb:hover {
   backdrop-filter: blur(10px);
   box-shadow: 0 0 20px rgba(0, 245, 255, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  &.header {
+    width: 100%;
+    font-size: 2.2rem;
+  }
 }
 
 .remove-button {

@@ -1,13 +1,41 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import labelHandler from "../util/labelHandler";
 
-function MidiForm({ onRemove }) {
-  const [midiChannel, setMidiChannel] = useState(1);
-  const [midiCC, setMidiCC] = useState(1);
-  const [value, setValue] = useState(64);
-  const [label, setLabel] = useState("MIDI Control Block");
+interface MidiFormProps {
+  onRemove: () => void;
+  midiChannel: number;
+  setMidiChannel: (n: number) => void;
+  midiCC: number;
+  setMidiCC: (n: number) => void;
+  value: number;
+  setValue: (n: number) => void;
+  label: string;
+  setLabel: (s: string) => void;
+}
+
+const MidiForm = ({
+  onRemove,
+  midiChannel,
+  setMidiChannel,
+  midiCC,
+  setMidiCC,
+  value,
+  setValue,
+  label,
+  setLabel,
+}: MidiFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleMidiUpload = async (currentValue) => {
+  const {
+    handleLabelClick,
+    handleLabelChange,
+    handleLabelBlur,
+    handleLabelKeyDown,
+  } = labelHandler;
+
+  const handleMidiUpload = async (currentValue: number) => {
     try {
       const midiAccess = await navigator.requestMIDIAccess();
       const outputs = Array.from(midiAccess.outputs.values());
@@ -26,27 +54,10 @@ function MidiForm({ onRemove }) {
     }
   };
 
-  const handleLabelClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleLabelChange = (e) => {
-    setLabel(e.target.value);
-  };
-
-  const handleLabelBlur = () => {
-    setIsEditing(false);
-  };
-
-  const handleLabelKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === "Escape") {
-      setIsEditing(false);
-    }
-  };
-
-  const handleValueChange = (e) => {
-    setValue(Number(e.target.value));
-    handleMidiUpload(e.target.value);
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+    setValue(newValue);
+    handleMidiUpload(newValue);
   };
 
   return (
@@ -57,14 +68,17 @@ function MidiForm({ onRemove }) {
             <input
               type="text"
               value={label}
-              onChange={handleLabelChange}
-              onBlur={handleLabelBlur}
-              onKeyDown={handleLabelKeyDown}
+              onChange={(e) => handleLabelChange(setLabel, e)}
+              onBlur={() => handleLabelBlur(setIsEditing)}
+              onKeyDown={(e) => handleLabelKeyDown(setIsEditing, e)}
               className="form-title-input"
               autoFocus
             />
           ) : (
-            <h3 className="form-title" onClick={handleLabelClick}>
+            <h3
+              className="form-title"
+              onClick={() => handleLabelClick(setIsEditing)}
+            >
               {label}
             </h3>
           )}
@@ -81,7 +95,7 @@ function MidiForm({ onRemove }) {
           value={midiChannel}
           onChange={(e) => setMidiChannel(Number(e.target.value))}
         >
-          {Array.from({ length: 15 }, (_, i) => i + 1).map((channel) => (
+          {Array.from({ length: 20 }, (_, i) => i + 1).map((channel) => (
             <option key={channel} value={channel}>
               {channel}
             </option>
@@ -117,6 +131,6 @@ function MidiForm({ onRemove }) {
       </div>
     </div>
   );
-}
+};
 
 export default MidiForm;
