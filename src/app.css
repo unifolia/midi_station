@@ -394,8 +394,17 @@ input[type="range"]::-moz-range-thumb:hover {
   text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
 }
 
+.form-title,
 .form-title-input {
-  width: 90%;
+  /* height: 50px; */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.form-title-input {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 1.1rem;
   font-weight: 400;
@@ -412,7 +421,6 @@ input[type="range"]::-moz-range-thumb:hover {
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
   &.header {
-    width: 100%;
     font-size: 2.2rem;
   }
 }
