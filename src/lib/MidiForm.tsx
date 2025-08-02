@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 
-function MidiForm({ onRemove }) {
-  const [midiChannel, setMidiChannel] = useState(1);
-  const [midiCC, setMidiCC] = useState(1);
-  const [value, setValue] = useState(64);
-  const [label, setLabel] = useState("MIDI Control Block");
+function MidiForm({ 
+  onRemove, 
+  midiChannel, 
+  setMidiChannel, 
+  midiCC, 
+  setMidiCC, 
+  value, 
+  setValue, 
+  label, 
+  setLabel 
+}) {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleMidiUpload = async (currentValue) => {
@@ -45,8 +51,9 @@ function MidiForm({ onRemove }) {
   };
 
   const handleValueChange = (e) => {
-    setValue(Number(e.target.value));
-    handleMidiUpload(e.target.value);
+    const newValue = Number(e.target.value);
+    setValue(newValue);
+    handleMidiUpload(newValue);
   };
 
   return (
