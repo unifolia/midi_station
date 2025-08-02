@@ -26,7 +26,7 @@ const MidiForm = ({
   label,
   setLabel,
 }: MidiFormProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
 
   const {
     handleLabelClick,

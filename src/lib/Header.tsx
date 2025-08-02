@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 const Header = ({ name, setName }: HeaderProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const {
     handleLabelClick,
     handleLabelChange,
