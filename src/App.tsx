@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+/* eslint-disable no-undef */
+import { useState } from "react";
 import MidiForm from "./lib/MidiForm";
+import Header from "./lib/Header";
 
-interface FormData {
+interface MidiFormData {
   id: number;
   midiChannel: number;
   midiCC: number;
@@ -10,66 +12,88 @@ interface FormData {
 }
 
 const App = () => {
-  const [forms, setForms] = useState([
-    {
-      id: 1,
-      midiChannel: 1,
-      midiCC: 1,
-      value: 64,
-      label: "MIDI Control Block",
-    },
-  ]);
+  const [forms, setForms] = useState({
+    name: "MIDI Control Block Group",
+    inputs: [
+      {
+        id: 1,
+        midiChannel: 1,
+        midiCC: 1,
+        value: 64,
+        label: "MIDI Control Block",
+      },
+    ],
+  });
   const [nextId, setNextId] = useState(2);
 
   const handleAddInput = () => {
-    if (forms.length < 25) {
-      setForms((prev) => [
+    if (forms.inputs.length < 25) {
+      setForms((prev) => ({
         ...prev,
-        {
-          id: nextId,
-          midiChannel: 1,
-          midiCC: 1,
-          value: 64,
-          label: "MIDI Control Block",
-        },
-      ]);
+        inputs: [
+          ...prev.inputs,
+          {
+            id: nextId,
+            midiChannel: 1,
+            midiCC: 1,
+            value: 64,
+            label: "MIDI Control Block",
+          },
+        ],
+      }));
       setNextId((prev) => prev + 1);
     }
   };
 
   const handleRemoveForm = (id: number) => {
-    setForms((prev) => prev.filter((form) => form.id !== id));
+    setForms((prev) => ({
+      ...prev,
+      inputs: prev.inputs.filter((form) => form.id !== id),
+    }));
   };
 
   const updateFormField = (
     id: number,
-    field: keyof FormData,
+    field: keyof MidiFormData,
     value: string | number
   ) => {
-    setForms((prev) =>
-      prev.map((form) => (form.id === id ? { ...form, [field]: value } : form))
-    );
+    setForms((prev) => ({
+      ...prev,
+      inputs: prev.inputs.map((form) =>
+        form.id === id ? { ...form, [field]: value } : form
+      ),
+    }));
   };
 
-  const savePreset = () => {
+  const savePreset = async () => {
     const preset = {
-      name:
-        prompt("Enter preset name:") || `Preset ${new Date().toLocaleString()}`,
+      name: forms.name,
       timestamp: new Date().toISOString(),
-      forms: forms,
+      forms: forms.inputs,
     };
 
     const dataStr = JSON.stringify(preset, null, 2);
     const dataBlob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(dataBlob);
+    const suggestedName = `${preset.name.replace(/[^a-z0-9]/gi, "_")}`;
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${preset.name.replace(/[^a-z0-9]/gi, "_")}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    if ("showSaveFilePicker" in window) {
+      const handle = await showSaveFilePicker({
+        suggestedName: `${suggestedName}.json`,
+      });
+      const writable = await handle.createWritable();
+      await writable.write(dataBlob);
+      await writable.close();
+      return;
+    } else {
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${suggestedName}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
   };
 
   const handleLoadPreset = (e: Event) => {
@@ -82,14 +106,20 @@ const App = () => {
           const result = event.target?.result as string;
           const preset = JSON.parse(result);
           if (preset.forms && Array.isArray(preset.forms)) {
-            setForms(preset.forms);
-            const maxId = Math.max(...preset.forms.map((f) => f.id), 0);
+            setForms({
+              name: "name",
+              inputs: preset.forms,
+            });
+            const maxId = Math.max(
+              ...preset.forms.map((f: MidiFormData) => f.id),
+              0
+            );
             setNextId(maxId + 1);
           } else {
-            alert("Invalid preset file format");
+            alert("Invalid preset file");
           }
         } catch (error) {
-          alert("Error loading preset: Invalid JSON file");
+          alert("Invalid preset file");
         }
       };
       reader.readAsText(file);
@@ -98,12 +128,16 @@ const App = () => {
 
   return (
     <main>
-      <h1>midi pedal web editor</h1>
+      <Header
+        name={forms.name}
+        setName={(value: any) => setForms((prev) => ({ ...prev, name: value }))}
+      />
 
       <nav className="nav-bar">
         <button onClick={handleAddInput}>Add Input</button>
         <button onClick={savePreset}>Save Preset</button>
-        <button>
+        <button className="load-button">
+          Upload Preset
           <input
             type="file"
             accept=".json"
@@ -114,7 +148,7 @@ const App = () => {
       </nav>
 
       <div className="forms-container">
-        {forms.map((form) => (
+        {forms.inputs.map((form) => (
           <MidiForm
             key={form.id}
             onRemove={() => handleRemoveForm(form.id)}
