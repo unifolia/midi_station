@@ -2,6 +2,15 @@
 import { useState } from "react";
 import MidiForm from "./lib/MidiForm";
 import Header from "./lib/Header";
+import {
+  NavBar,
+  NavButton,
+  LoadButton,
+  FormsContainer,
+  GlobalChannelContainer,
+  GlobalChannelLabel,
+  GlobalChannelSelect,
+} from "./styles/components";
 
 interface MidiFormData {
   id: number;
@@ -25,16 +34,32 @@ const App = () => {
     ],
   });
   const [nextId, setNextId] = useState(2);
+  const [globalMidiChannel, setGlobalMidiChannel] = useState<number | null>(
+    null
+  );
+
+  const handleGlobalMidiChannelChange = (newGlobalChannel: number | null) => {
+    setGlobalMidiChannel(newGlobalChannel);
+    if (newGlobalChannel !== null) {
+      setForms((prev) => ({
+        ...prev,
+        inputs: prev.inputs.map((form) => ({
+          ...form,
+          midiChannel: newGlobalChannel,
+        })),
+      }));
+    }
+  };
 
   const handleAddInput = () => {
-    if (forms.inputs.length < 25) {
+    if (forms.inputs.length < 50) {
       setForms((prev) => ({
         ...prev,
         inputs: [
           ...prev.inputs,
           {
             id: nextId,
-            midiChannel: 1,
+            midiChannel: globalMidiChannel || 1,
             midiCC: 1,
             value: 64,
             label: "MIDI Control Block",
@@ -107,7 +132,7 @@ const App = () => {
           const preset = JSON.parse(result);
           if (preset.forms && Array.isArray(preset.forms)) {
             setForms({
-              name: "name",
+              name: preset.name,
               inputs: preset.forms,
             });
             const maxId = Math.max(
@@ -133,21 +158,36 @@ const App = () => {
         setName={(value: any) => setForms((prev) => ({ ...prev, name: value }))}
       />
 
-      <nav className="nav-bar">
-        <button onClick={handleAddInput}>Add Input</button>
-        <button onClick={savePreset}>Save Preset</button>
-        <button className="load-button">
+      <NavBar>
+        <NavButton onClick={handleAddInput}>Add Input</NavButton>
+        <NavButton onClick={savePreset}>Save Preset</NavButton>
+        <LoadButton>
           Upload Preset
           <input
             type="file"
             accept=".json"
             onChange={(e) => handleLoadPreset(e as unknown as Event)}
             value=""
-          ></input>
-        </button>
-      </nav>
+          />
+        </LoadButton>
+        <GlobalChannelContainer>
+          <GlobalChannelLabel>Global MIDI Channel:</GlobalChannelLabel>
+          <GlobalChannelSelect
+            value={globalMidiChannel || ""}
+            onChange={(e) =>
+              handleGlobalMidiChannelChange(Number(e.target.value))
+            }
+          >
+            {Array.from({ length: 20 }, (_, i) => i + 1).map((channel) => (
+              <option key={channel} value={channel}>
+                {channel}
+              </option>
+            ))}
+          </GlobalChannelSelect>
+        </GlobalChannelContainer>
+      </NavBar>
 
-      <div className="forms-container">
+      <FormsContainer>
         {forms.inputs.map((form) => (
           <MidiForm
             key={form.id}
@@ -156,6 +196,7 @@ const App = () => {
             setMidiChannel={(value: string | number) =>
               updateFormField(form.id, "midiChannel", value)
             }
+            globalMidiChannel={globalMidiChannel}
             midiCC={form.midiCC}
             setMidiCC={(value: string | number) =>
               updateFormField(form.id, "midiCC", value)
@@ -170,7 +211,7 @@ const App = () => {
             }
           />
         ))}
-      </div>
+      </FormsContainer>
     </main>
   );
 };

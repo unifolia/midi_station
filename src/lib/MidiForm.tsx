@@ -1,12 +1,24 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import labelHandler from "../util/labelHandler";
+import {
+  MidiFormContainer,
+  FormHeader,
+  FormHeaderContent,
+  FormTitleDisplay,
+  FormTitleInput,
+  RemoveButton,
+  FormGroup,
+  FormLabel,
+  Select,
+  RangeInput,
+} from "../styles/components";
 
 interface MidiFormProps {
   onRemove: () => void;
   midiChannel: number;
   setMidiChannel: (n: number) => void;
+  globalMidiChannel: number | null;
   midiCC: number;
   setMidiCC: (n: number) => void;
   value: number;
@@ -19,6 +31,7 @@ const MidiForm = ({
   onRemove,
   midiChannel,
   setMidiChannel,
+  globalMidiChannel,
   midiCC,
   setMidiCC,
   value,
@@ -26,7 +39,7 @@ const MidiForm = ({
   label,
   setLabel,
 }: MidiFormProps) => {
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   const {
     handleLabelClick,
@@ -46,7 +59,9 @@ const MidiForm = ({
       }
 
       const output = outputs[5];
-      const message = [0xb0 + midiChannel - 1, midiCC, currentValue];
+      const effectiveChannel =
+        globalMidiChannel !== null ? globalMidiChannel : midiChannel;
+      const message = [0xb0 + effectiveChannel - 1, midiCC, currentValue];
       output.send(message);
     } catch (error) {
       console.error("MIDI Error:", error);
@@ -61,51 +76,49 @@ const MidiForm = ({
   };
 
   return (
-    <div className="midi-form">
-      <div className="form-header">
-        <div className="form-header-content">
+    <MidiFormContainer>
+      <FormHeader>
+        <FormHeaderContent>
           {isEditing ? (
-            <input
-              type="text"
-              value={label}
-              onChange={(e) => handleLabelChange(setLabel, e)}
-              onBlur={() => handleLabelBlur(setIsEditing)}
-              onKeyDown={(e) => handleLabelKeyDown(setIsEditing, e)}
-              className="form-title-input"
-              autoFocus
-            />
+            <>
+              <label htmlFor=""></label>
+              <FormTitleInput
+                type="text"
+                value={label}
+                onChange={(e) => handleLabelChange(setLabel, e)}
+                onBlur={() => handleLabelBlur(setIsEditing)}
+                onKeyDown={(e) => handleLabelKeyDown(setIsEditing, e)}
+                autoFocus
+              />
+            </>
           ) : (
-            <h3
-              className="form-title"
-              onClick={() => handleLabelClick(setIsEditing)}
-            >
+            <FormTitleDisplay onClick={() => handleLabelClick(setIsEditing)}>
               {label}
-            </h3>
+            </FormTitleDisplay>
           )}
-        </div>
-        <button className="remove-button" onClick={onRemove}>
-          ×
-        </button>
-      </div>
+        </FormHeaderContent>
+        <RemoveButton onClick={onRemove}>×</RemoveButton>
+      </FormHeader>
 
-      <div className="form-group">
-        <label htmlFor="midi-channel">MIDI Channel:</label>
-        <select
+      <FormGroup>
+        <FormLabel htmlFor="midi-channel">MIDI Channel:</FormLabel>
+        <Select
           id="midi-channel"
           value={midiChannel}
           onChange={(e) => setMidiChannel(Number(e.target.value))}
+          disabled={false}
         >
           {Array.from({ length: 20 }, (_, i) => i + 1).map((channel) => (
             <option key={channel} value={channel}>
               {channel}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormGroup>
 
-      <div className="form-group">
-        <label htmlFor="midi-cc">MIDI CC:</label>
-        <select
+      <FormGroup>
+        <FormLabel htmlFor="midi-cc">MIDI CC:</FormLabel>
+        <Select
           id="midi-cc"
           value={midiCC}
           onChange={(e) => setMidiCC(Number(e.target.value))}
@@ -115,12 +128,12 @@ const MidiForm = ({
               {cc}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormGroup>
 
-      <div className="form-group">
-        <label htmlFor="value-slider">Value: {value}</label>
-        <input
+      <FormGroup>
+        <FormLabel htmlFor="value-slider">Value: {value}</FormLabel>
+        <RangeInput
           id="value-slider"
           type="range"
           min="0"
@@ -128,8 +141,8 @@ const MidiForm = ({
           value={value}
           onChange={(e) => handleValueChange(e)}
         />
-      </div>
-    </div>
+      </FormGroup>
+    </MidiFormContainer>
   );
 };
 

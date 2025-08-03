@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import labelHandler from "../util/labelHandler";
+import { Title } from "../styles/GlobalStyles";
+import { FormTitleDisplay, FormTitleInput } from "../styles/components";
 
 interface HeaderProps {
   name: string;
@@ -8,7 +10,7 @@ interface HeaderProps {
 }
 
 const Header = ({ name, setName }: HeaderProps) => {
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const {
     handleLabelClick,
     handleLabelChange,
@@ -16,26 +18,32 @@ const Header = ({ name, setName }: HeaderProps) => {
     handleLabelKeyDown,
   } = labelHandler;
 
+  console.log(name);
+
   return (
     <>
-      <h1>midi pedal web editor</h1>
+      <Title>MIDI Messenger</Title>
       {isEditing ? (
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => handleLabelChange(setName, e)}
-          onBlur={() => handleLabelBlur(setIsEditing)}
-          onKeyDown={(e) => handleLabelKeyDown(setIsEditing, e)}
-          className="header form-title-input"
-          autoFocus
-        />
+        <>
+          <label htmlFor="presetName">Edit Preset Name</label>
+          <FormTitleInput
+            id="presetName"
+            type="text"
+            value={name}
+            onChange={(e) => handleLabelChange(setName, e)}
+            onBlur={() => handleLabelBlur(setIsEditing)}
+            onKeyDown={(e) => handleLabelKeyDown(setIsEditing, e)}
+            className="header"
+            autoFocus
+          />
+        </>
       ) : (
-        <h2
-          className="form-title"
+        <FormTitleDisplay
+          as="h2"
           onClick={() => handleLabelClick(setIsEditing)}
         >
           {name}
-        </h2>
+        </FormTitleDisplay>
       )}
     </>
   );
