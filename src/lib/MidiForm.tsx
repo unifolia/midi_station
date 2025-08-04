@@ -25,6 +25,7 @@ interface MidiFormProps {
   setValue: (n: number) => void;
   label: string;
   setLabel: (s: string) => void;
+  device: string;
 }
 
 const MidiForm = ({
@@ -38,6 +39,7 @@ const MidiForm = ({
   setValue,
   label,
   setLabel,
+  device,
 }: MidiFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -58,11 +60,16 @@ const MidiForm = ({
         return;
       }
 
-      const output = outputs[5];
+      const output = outputs.filter(
+        (outputs) => outputs.manufacturer === device
+      );
+
       const effectiveChannel =
         globalMidiChannel !== null ? globalMidiChannel : midiChannel;
       const message = [0xb0 + effectiveChannel - 1, midiCC, currentValue];
-      output.send(message);
+      if (output.length) {
+        output[0].send(message);
+      }
     } catch (error) {
       console.error("MIDI Error:", error);
       alert("MIDI not supported or access denied");
