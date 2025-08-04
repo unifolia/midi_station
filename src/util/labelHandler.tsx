@@ -12,8 +12,16 @@ const labelHandler = {
     setLabel(e.target.value);
   },
 
-  handleLabelBlur: function (setIsEditing: (editing: boolean) => void): void {
-    setIsEditing(false);
+  handleLabelBlur: function (
+    setIsEditing: (editing: boolean) => void,
+    name: string | number,
+    setName: (name: string) => void
+  ): void {
+    if (name) {
+      setIsEditing(false);
+    } else {
+      setName("Untitled");
+    }
   },
 
   handleLabelKeyDown: function (
