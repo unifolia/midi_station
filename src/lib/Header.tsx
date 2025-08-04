@@ -14,7 +14,7 @@ interface HeaderProps {
 }
 
 const Header = ({ name, setName }: HeaderProps) => {
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const {
     handleLabelClick,
     handleLabelChange,
@@ -32,7 +32,7 @@ const Header = ({ name, setName }: HeaderProps) => {
             type="text"
             value={name}
             onChange={(e) => handleLabelChange(setName, e)}
-            onBlur={() => handleLabelBlur(setIsEditing)}
+            onBlur={() => handleLabelBlur(setIsEditing, name, setName)}
             onKeyDown={(e) => handleLabelKeyDown(setIsEditing, e)}
             className="header"
             autoFocus

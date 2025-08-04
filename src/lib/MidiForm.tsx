@@ -86,7 +86,7 @@ const MidiForm = ({
                 type="text"
                 value={label}
                 onChange={(e) => handleLabelChange(setLabel, e)}
-                onBlur={() => handleLabelBlur(setIsEditing)}
+                onBlur={() => handleLabelBlur(setIsEditing, label, setLabel)}
                 onKeyDown={(e) => handleLabelKeyDown(setIsEditing, e)}
                 autoFocus
               />
