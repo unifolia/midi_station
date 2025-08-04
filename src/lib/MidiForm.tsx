@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import labelHandler from "../util/labelHandler";
 import {
   MidiFormContainer,
-  FormClickable,
   FormHeader,
   FormHeaderContent,
   FormTitleDisplay,
