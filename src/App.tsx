@@ -4,6 +4,7 @@ import MidiForm from "./lib/MidiForm";
 import Header from "./lib/Header";
 import { FormsContainer } from "./styles/components";
 import Navigation from "./lib/NavBar";
+import Device from "./lib/Device";
 
 interface MidiFormData {
   id: number;
@@ -30,6 +31,8 @@ const App = () => {
   const [globalMidiChannel, setGlobalMidiChannel] = useState<number | null>(
     null
   );
+  const [device, setDevice] = useState("");
+  const [manufacturers, setManufacturers] = useState<string[]>([]);
 
   const handleGlobalMidiChannelChange = (newGlobalChannel: number) => {
     setGlobalMidiChannel(newGlobalChannel);
@@ -159,6 +162,24 @@ const App = () => {
     if (navigator.requestMIDIAccess) {
       navigator.requestMIDIAccess().then(
         (midiAccess) => {
+          const outputs = Array.from(midiAccess.outputs.values());
+
+          if (outputs.length === 0) {
+            alert("No MIDI outputs found. Please connect a MIDI device.");
+            return;
+          }
+
+          const uniqueManufacturers = [
+            ...new Set(
+              outputs
+                .map((output) => output.manufacturer)
+                .filter((manufacturer): manufacturer is string => manufacturer !== null)
+            ),
+          ];
+          setManufacturers(uniqueManufacturers);
+
+          console.log(outputs);
+
           for (let input of midiAccess.inputs.values()) {
             input.onmidimessage = handleMIDIMessage;
           }
@@ -177,6 +198,12 @@ const App = () => {
         setName={(value: string) =>
           setForms((prev) => ({ ...prev, name: value }))
         }
+      />
+
+      <Device
+        device={device}
+        manufacturers={manufacturers}
+        setDevice={setDevice}
       />
 
       <Navigation
@@ -209,6 +236,7 @@ const App = () => {
             setLabel={(value: string | number) =>
               updateFormField(form.id, "label", value)
             }
+            device={device}
           />
         ))}
       </FormsContainer>
