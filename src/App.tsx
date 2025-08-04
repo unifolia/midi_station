@@ -173,12 +173,16 @@ const App = () => {
             ...new Set(
               outputs
                 .map((output) => output.manufacturer)
-                .filter((manufacturer): manufacturer is string => manufacturer !== null)
+                .filter(
+                  (manufacturer): manufacturer is string =>
+                    manufacturer !== null
+                )
+                .filter(
+                  (manufacturer): manufacturer is string => manufacturer !== ""
+                )
             ),
           ];
           setManufacturers(uniqueManufacturers);
-
-          console.log(outputs);
 
           for (let input of midiAccess.inputs.values()) {
             input.onmidimessage = handleMIDIMessage;
