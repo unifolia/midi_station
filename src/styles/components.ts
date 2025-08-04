@@ -115,7 +115,7 @@ export const FormTitleDisplay = styled.h3`
   }
 
   &.header {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 `;
 
@@ -140,7 +140,7 @@ export const FormTitleInput = styled.input`
   text-align: center;
 
   &.header {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 `;
 

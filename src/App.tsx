@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MidiForm from "./lib/MidiForm";
 import Header from "./lib/Header";
 import { FormsContainer } from "./styles/components";
@@ -143,6 +143,32 @@ const App = () => {
       reader.readAsText(file);
     }
   };
+
+  const handleMIDIMessage = (event: any) => {
+    const [status, data1, data2] = event.data;
+
+    const command = status >> 4;
+    const note = data1;
+    const velocity = data2;
+
+    console.log(command, note, velocity);
+    // Need to finish this ^ Update form input (with CC that matches note)'s value with new velocity
+  };
+
+  useEffect(() => {
+    if (navigator.requestMIDIAccess) {
+      navigator.requestMIDIAccess().then(
+        (midiAccess) => {
+          for (let input of midiAccess.inputs.values()) {
+            input.onmidimessage = handleMIDIMessage;
+          }
+        },
+        () => console.error("Failed to access MIDI devices.")
+      );
+    } else {
+      console.error("MIDI is not supported on this browser :(");
+    }
+  }, []);
 
   return (
     <main>
