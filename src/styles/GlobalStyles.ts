@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle } from 'styled-components';
-import { theme } from './theme';
+import styled, { createGlobalStyle } from "styled-components";
+import { theme } from "./theme";
 
 export const GlobalStyles = createGlobalStyle`
   :root {
@@ -64,6 +64,8 @@ export const GlobalStyles = createGlobalStyle`
 
   #app {
     max-width: 1280px;
+    box-sizing: border-box;
+    width: 100%;
     margin: 0 auto;
     padding: ${theme.spacing.xl};
     text-align: center;
@@ -87,7 +89,11 @@ export const StyledLink = styled.a`
     left: 0;
     width: 0;
     height: 1px;
-    background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
+    background: linear-gradient(
+      90deg,
+      var(--primary-glow),
+      var(--secondary-glow)
+    );
     transition: width 0.3s ease;
   }
 

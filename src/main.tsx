@@ -6,7 +6,7 @@ import { GlobalStyles } from "./styles/GlobalStyles";
 
 ReactDOM.createRoot(document.getElementById("app")!).render(
   <React.StrictMode>
-    <BrowserRouter basename="/midi">
+    <BrowserRouter basename="/messenger">
       <GlobalStyles />
       <App />
     </BrowserRouter>

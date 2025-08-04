@@ -6,6 +6,7 @@ import { BaseButton } from "./GlobalStyles";
 export const NavBar = styled.nav`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: ${theme.spacing.md};
   margin: ${theme.spacing.xl} 0;
   padding: ${theme.spacing.md};
@@ -54,7 +55,8 @@ export const FormsContainer = styled.div`
 `;
 
 export const MidiFormContainer = styled.div`
-  width: 250px;
+  width: calc(50% - 0.75rem);
+  box-sizing: border-box;
   background: var(--surface-glass);
   backdrop-filter: blur(20px);
   border: 1px solid var(--surface-glass-border);
@@ -63,11 +65,14 @@ export const MidiFormContainer = styled.div`
   box-shadow: ${theme.shadows.glass};
   position: relative;
   overflow: hidden;
-  transition: ${theme.transitions.default};
 
   &:hover {
     box-shadow: ${theme.shadows.glassHover};
     border-color: rgba(0, 245, 255, 0.3);
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
   }
 `;
 
@@ -83,6 +88,7 @@ export const FormHeader = styled.div`
 export const FormHeaderContent = styled.div`
   flex: 1;
   margin-right: ${theme.spacing.md};
+  height: 60px;
 `;
 
 export const FormTitleDisplay = styled.h3`
@@ -142,7 +148,7 @@ export const RemoveButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: ${theme.fonts.weights.light};
   color: var(--text-secondary);
   background: rgba(255, 255, 255, 0.02);
@@ -154,6 +160,7 @@ export const RemoveButton = styled.button`
   text-transform: none;
   letter-spacing: 0;
   line-height: 1;
+  padding-top: 2px;
 
   &:hover {
     color: #ff4757;
@@ -167,6 +174,10 @@ export const RemoveButton = styled.button`
   &:active {
     transform: translateY(0);
   }
+`;
+
+export const FormClickable = styled.div`
+  height: 65px;
 `;
 
 export const FormGroup = styled.div`
@@ -295,4 +306,28 @@ export const GlobalChannelLabel = styled(FormLabel)`
 export const GlobalChannelSelect = styled(Select)`
   min-width: 80px;
   margin: 0;
+  background: #fff;
+  color: #000;
+
+  &:focus {
+    background: #fff;
+    color: #000;
+  }
+
+  &:hover {
+    outline: 4px solid #8e8e8e78;
+    background: linear-gradient(
+      135deg,
+      var(--accent-glow),
+      var(--primary-glow)
+    );
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 245, 255, 0.3),
+      0 0 20px rgba(0, 245, 255, 0.2);
+    color: #000000;
+  }
+`;
+
+export const Input = styled.input`
+  cursor: pointer;
 `;

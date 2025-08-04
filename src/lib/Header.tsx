@@ -2,7 +2,11 @@
 import { useState } from "react";
 import labelHandler from "../util/labelHandler";
 import { Title } from "../styles/GlobalStyles";
-import { FormTitleDisplay, FormTitleInput } from "../styles/components";
+import {
+  FormClickable,
+  FormTitleDisplay,
+  FormTitleInput,
+} from "../styles/components";
 
 interface HeaderProps {
   name: string;
@@ -10,7 +14,7 @@ interface HeaderProps {
 }
 
 const Header = ({ name, setName }: HeaderProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const {
     handleLabelClick,
     handleLabelChange,
@@ -18,14 +22,11 @@ const Header = ({ name, setName }: HeaderProps) => {
     handleLabelKeyDown,
   } = labelHandler;
 
-  console.log(name);
-
   return (
     <>
       <Title>MIDI Messenger</Title>
-      {isEditing ? (
-        <>
-          <label htmlFor="presetName">Edit Preset Name</label>
+      <FormClickable>
+        {isEditing ? (
           <FormTitleInput
             id="presetName"
             type="text"
@@ -36,15 +37,15 @@ const Header = ({ name, setName }: HeaderProps) => {
             className="header"
             autoFocus
           />
-        </>
-      ) : (
-        <FormTitleDisplay
-          as="h2"
-          onClick={() => handleLabelClick(setIsEditing)}
-        >
-          {name}
-        </FormTitleDisplay>
-      )}
+        ) : (
+          <FormTitleDisplay
+            as="h2"
+            onClick={() => handleLabelClick(setIsEditing)}
+          >
+            {name}
+          </FormTitleDisplay>
+        )}
+      </FormClickable>
     </>
   );
 };
