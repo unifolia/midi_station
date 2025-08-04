@@ -181,7 +181,7 @@ export const RemoveButton = styled.button`
 `;
 
 export const FormClickable = styled.div`
-  height: 65px;
+  min-height: 65px;
 `;
 
 export const FormGroup = styled.div`
