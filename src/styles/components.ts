@@ -47,7 +47,7 @@ export const GlobalChannelContainer = styled.div`
 // Form Components
 export const FormsContainer = styled.div`
   // display: grid;
-  // grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  // grid-template-columns: repeat(auto-fit, minmax(280px, 1f2r));
   gap: ${theme.spacing.lg};
   margin: ${theme.spacing.xl} 0;
   display: flex;
@@ -55,7 +55,7 @@ export const FormsContainer = styled.div`
 `;
 
 export const MidiFormContainer = styled.div`
-  width: calc(50% - 0.75rem);
+  width: calc(33% - 1rem);
   box-sizing: border-box;
   background: var(--surface-glass);
   backdrop-filter: blur(20px);
@@ -88,7 +88,7 @@ export const FormHeader = styled.div`
 export const FormHeaderContent = styled.div`
   flex: 1;
   margin-right: ${theme.spacing.md};
-  height: 60px;
+  min-height: 60px;
 `;
 
 export const FormTitleDisplay = styled.h3`
@@ -113,6 +113,10 @@ export const FormTitleDisplay = styled.h3`
     color: var(--primary-glow);
     text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
   }
+
+  &.header {
+    font-size: 2rem;
+  }
 `;
 
 export const FormTitleInput = styled.input`
@@ -136,7 +140,7 @@ export const FormTitleInput = styled.input`
   text-align: center;
 
   &.header {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 `;
 
@@ -326,6 +330,9 @@ export const GlobalChannelSelect = styled(Select)`
       0 0 20px rgba(0, 245, 255, 0.2);
     color: #000000;
   }
+
+  outline: 4px solid #24242480;
+  outline-offset: -2px;
 `;
 
 export const Input = styled.input`

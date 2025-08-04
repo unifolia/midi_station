@@ -40,6 +40,7 @@ const Header = ({ name, setName }: HeaderProps) => {
         ) : (
           <FormTitleDisplay
             as="h2"
+            className="header"
             onClick={() => handleLabelClick(setIsEditing)}
           >
             {name}

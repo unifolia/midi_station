@@ -30,7 +30,7 @@ export const theme = {
     sizes: {
       h1: "3.2em",
       h2: "2rem",
-      form: "2.1rem",
+      form: "1rem",
       body: "0.95rem",
       label: "0.9rem",
     },

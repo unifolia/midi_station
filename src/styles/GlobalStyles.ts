@@ -7,8 +7,6 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: 300;
     color-scheme: dark;
     color: ${theme.colors.textPrimary};
-    background: ${theme.gradients.background};
-    background-attachment: fixed;
 
     --primary-glow: ${theme.colors.primaryGlow};
     --secondary-glow: ${theme.colors.secondaryGlow};
@@ -26,12 +24,12 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    background: #031e22a1;
     margin: 0;
     display: flex;
     place-items: center;
     min-width: 320px;
     min-height: 100vh;
-    background: ${theme.gradients.background};
     font-family: ${theme.fonts.family};
     overflow-x: hidden;
 
@@ -152,7 +150,7 @@ export const BaseButton = styled.button`
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
-  outline: 4px solid #242424;
+  outline: 4px solid #24242480;
   outline-offset: -2px;
   background: white;
 
