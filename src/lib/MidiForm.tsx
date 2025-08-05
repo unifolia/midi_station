@@ -80,7 +80,7 @@ const MidiForm = ({
 
   useEffect(() => {
     handleMidiUpload(value);
-  }, [midiChannel]);
+  }, [device, midiChannel, midiCC]);
 
   return (
     <MidiFormContainer>
