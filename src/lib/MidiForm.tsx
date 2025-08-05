@@ -68,7 +68,9 @@ const MidiForm = ({
       }
     } catch (error) {
       console.error("MIDI Error:", error);
-      alert("MIDI not supported or access denied");
+      alert(
+        "MIDI not supported on this browser. Please check your settings, or try a different browser."
+      );
     }
   };
 
