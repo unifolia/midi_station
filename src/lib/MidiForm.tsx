@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import labelHandler from "../util/labelHandler";
 import {
   MidiFormContainer,
@@ -18,7 +18,6 @@ interface MidiFormProps {
   onRemove: () => void;
   midiChannel: number;
   setMidiChannel: (n: number) => void;
-  globalMidiChannel: number | null;
   midiCC: number;
   setMidiCC: (n: number) => void;
   value: number;
@@ -32,7 +31,6 @@ const MidiForm = ({
   onRemove,
   midiChannel,
   setMidiChannel,
-  globalMidiChannel,
   midiCC,
   setMidiCC,
   value,
@@ -64,9 +62,7 @@ const MidiForm = ({
         (outputs) => outputs.manufacturer === device
       );
 
-      const effectiveChannel =
-        globalMidiChannel !== null ? globalMidiChannel : midiChannel;
-      const message = [0xb0 + effectiveChannel - 1, midiCC, currentValue];
+      const message = [0xb0 + midiChannel - 1, midiCC, currentValue];
       if (output.length) {
         output[0].send(message);
       }
@@ -81,6 +77,10 @@ const MidiForm = ({
     setValue(newValue);
     handleMidiUpload(newValue);
   };
+
+  useEffect(() => {
+    handleMidiUpload(value);
+  }, [midiChannel]);
 
   return (
     <MidiFormContainer>

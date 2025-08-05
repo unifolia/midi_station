@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import MidiForm from "./lib/MidiForm";
 import Header from "./lib/Header";
 import { FormsContainer } from "./styles/components";
@@ -33,6 +33,12 @@ const App = () => {
   );
   const [device, setDevice] = useState("");
   const [manufacturers, setManufacturers] = useState<string[]>([]);
+  const formsRef = useRef(forms);
+
+  // Update the ref whenever forms changes
+  useEffect(() => {
+    formsRef.current = forms;
+  }, [forms]);
 
   const handleGlobalMidiChannelChange = (newGlobalChannel: number) => {
     setGlobalMidiChannel(newGlobalChannel);
@@ -147,16 +153,29 @@ const App = () => {
     }
   };
 
-  const handleMIDIMessage = (event: any) => {
+  const handleMIDIMessage = useCallback((event: any) => {
     const [status, data1, data2] = event.data;
 
     const command = status >> 4;
     const note = data1;
     const velocity = data2;
 
-    console.log(command, note, velocity);
-    // Need to finish this ^ Update form input (with CC that matches note)'s value with new velocity
-  };
+    if (command == 11) {
+      const currentForms = formsRef.current;
+      const matchingForm = currentForms.inputs.find(
+        (form) => form.midiCC === note
+      );
+
+      if (matchingForm) {
+        setForms((prev) => ({
+          ...prev,
+          inputs: prev.inputs.map((form) =>
+            form.midiCC === note ? { ...form, value: velocity } : form
+          ),
+        }));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (navigator.requestMIDIAccess) {
@@ -227,7 +246,6 @@ const App = () => {
             setMidiChannel={(value: string | number) =>
               updateFormField(form.id, "midiChannel", value)
             }
-            globalMidiChannel={globalMidiChannel}
             midiCC={form.midiCC}
             setMidiCC={(value: string | number) =>
               updateFormField(form.id, "midiCC", value)
