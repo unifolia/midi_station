@@ -54,7 +54,6 @@ const MidiForm = ({
       const outputs = Array.from(midiAccess.outputs.values());
 
       if (outputs.length === 0) {
-        alert("No MIDI outputs found. Please connect a MIDI device.");
         return;
       }
 

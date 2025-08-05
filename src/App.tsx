@@ -31,6 +31,8 @@ const App = () => {
   const [globalMidiChannel, setGlobalMidiChannel] = useState<number | null>(
     null
   );
+
+  const [isMidiOutput, setIsMidiOutput] = useState(false);
   const [device, setDevice] = useState("");
   const [manufacturers, setManufacturers] = useState<string[]>([]);
   const formsRef = useRef(forms);
@@ -184,9 +186,11 @@ const App = () => {
           const outputs = Array.from(midiAccess.outputs.values());
 
           if (outputs.length === 0) {
-            alert("No MIDI outputs found. Please connect a MIDI device.");
+            setIsMidiOutput(false);
             return;
           }
+
+          setIsMidiOutput(true);
 
           const uniqueManufacturers = [
             ...new Set(
@@ -223,11 +227,15 @@ const App = () => {
         }
       />
 
-      <Device
-        device={device}
-        manufacturers={manufacturers}
-        setDevice={setDevice}
-      />
+      {isMidiOutput ? (
+        <Device
+          device={device}
+          manufacturers={manufacturers}
+          setDevice={setDevice}
+        />
+      ) : (
+        <h3>No Midi Devices Connected</h3>
+      )}
 
       <Navigation
         handleAddInput={handleAddInput}

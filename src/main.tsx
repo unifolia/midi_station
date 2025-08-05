@@ -9,7 +9,7 @@ console.log(
   `
       display: block;
       font-family: 'Arial';
-      font-size: 20px;
+      font-size: 30px;
       text-align: center;
       color: black; background: #89CC04;
       padding: 30px;

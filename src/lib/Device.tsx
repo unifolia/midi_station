@@ -14,7 +14,7 @@ const Device = ({ device, manufacturers, setDevice }: DeviceProps) => {
         <GlobalChannelSelect
           value={device}
           onChange={(e) => setDevice(e.target.value)}
-          style={{ marginLeft: "8px" }}
+          style={{ margin: "0px 0px 8px 8px" }}
         >
           <option value="">Select Device...</option>
           {manufacturers.map((manufacturer) => (

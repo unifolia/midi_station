@@ -8,7 +8,6 @@ export const NavBar = styled.nav`
   justify-content: center;
   flex-wrap: wrap;
   gap: ${theme.spacing.md};
-  margin: ${theme.spacing.xl} 0;
   padding: ${theme.spacing.md};
   background: var(--surface-glass);
   backdrop-filter: blur(20px);
