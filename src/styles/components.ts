@@ -188,6 +188,15 @@ export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.xs};
+
+  &.color-picker {
+    flex-direction: row;
+    justify-content: space-between;
+
+    input {
+      width: 33%;
+    }
+  }
 `;
 
 export const FormLabel = styled.label`

@@ -12,6 +12,7 @@ interface MidiFormData {
   midiCC: number;
   value: number;
   label: string;
+  backgroundColor: string;
 }
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         midiCC: 1,
         value: 64,
         label: "MIDI Control Block",
+        backgroundColor: "#1a1a2e",
       },
     ],
   });
@@ -67,6 +69,7 @@ const App = () => {
             midiCC: 1,
             value: 64,
             label: "MIDI Control Block",
+            backgroundColor: "#1a1a2e",
           },
         ],
       }));
@@ -261,6 +264,10 @@ const App = () => {
             label={form.label}
             setLabel={(value: string | number) =>
               updateFormField(form.id, "label", value)
+            }
+            backgroundColor={form.backgroundColor}
+            setBackgroundColor={(value: string) =>
+              updateFormField(form.id, "backgroundColor", value)
             }
             device={device}
           />

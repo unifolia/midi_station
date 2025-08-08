@@ -24,6 +24,8 @@ interface MidiFormProps {
   setValue: (n: number) => void;
   label: string;
   setLabel: (s: string) => void;
+  backgroundColor: string;
+  setBackgroundColor: (s: string) => void;
   device: string;
 }
 
@@ -37,6 +39,8 @@ const MidiForm = ({
   setValue,
   label,
   setLabel,
+  backgroundColor,
+  setBackgroundColor,
   device,
 }: MidiFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -52,7 +56,9 @@ const MidiForm = ({
     try {
       const midiAccess = await navigator.requestMIDIAccess();
 
-      const [output] = Array.from(midiAccess?.outputs?.values())?.filter(
+      const outputs = midiAccess?.outputs?.values();
+      const outputsArray = outputs ? Array.from(outputs) : [];
+      const [output] = outputsArray.filter(
         (outputs) => outputs?.name === device
       );
 
@@ -80,7 +86,7 @@ const MidiForm = ({
   }, [device, midiChannel, midiCC]);
 
   return (
-    <MidiFormContainer>
+    <MidiFormContainer style={{ background: backgroundColor + "55" }}>
       <FormHeader>
         <FormHeaderContent>
           {isEditing ? (
@@ -144,6 +150,26 @@ const MidiForm = ({
           max="127"
           value={value}
           onChange={(e) => handleValueChange(e)}
+        />
+      </FormGroup>
+
+      <FormGroup className="color-picker">
+        <FormLabel htmlFor="color-picker">Background:</FormLabel>
+        <input
+          id="color-picker"
+          type="color"
+          value={backgroundColor}
+          onChange={(e) => setBackgroundColor(e.target.value)}
+          style={{
+            width: "45%",
+            height: "40px",
+            border: "none",
+            outline: "5px solid #3e3e3e",
+            outlineOffset: "-6px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            background: "transparent",
+          }}
         />
       </FormGroup>
     </MidiFormContainer>
