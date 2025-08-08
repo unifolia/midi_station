@@ -51,19 +51,15 @@ const MidiForm = ({
   const handleMidiUpload = async (currentValue: number) => {
     try {
       const midiAccess = await navigator.requestMIDIAccess();
-      const outputs = Array.from(midiAccess.outputs.values());
 
-      if (outputs.length === 0) {
-        return;
-      }
-
-      const output = outputs.filter(
-        (outputs) => outputs.manufacturer === device
+      const [output] = Array.from(midiAccess?.outputs?.values())?.filter(
+        (outputs) => outputs?.name === device
       );
 
       const message = [0xb0 + midiChannel - 1, midiCC, currentValue];
-      if (output.length) {
-        output[0].send(message);
+
+      if (output) {
+        output.send(message);
       }
     } catch (error) {
       console.error("MIDI Error:", error);
