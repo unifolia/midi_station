@@ -34,7 +34,7 @@ const App = () => {
 
   const [isMidiOutput, setIsMidiOutput] = useState(false);
   const [device, setDevice] = useState("");
-  const [manufacturers, setManufacturers] = useState<string[]>([]);
+  const [deviceList, setDeviceList] = useState<string[]>([]);
   const formsRef = useRef(forms);
 
   // Update the ref whenever forms changes
@@ -192,10 +192,10 @@ const App = () => {
 
           setIsMidiOutput(true);
 
-          const uniqueManufacturers = [
+          const names = [
             ...new Set(
               outputs
-                .map((output) => output.manufacturer)
+                .map((output) => output.name)
                 .filter(
                   (manufacturer): manufacturer is string =>
                     manufacturer !== null
@@ -205,7 +205,7 @@ const App = () => {
                 )
             ),
           ];
-          setManufacturers(uniqueManufacturers);
+          setDeviceList(names);
 
           for (let input of midiAccess.inputs.values()) {
             input.onmidimessage = handleMIDIMessage;
@@ -228,11 +228,7 @@ const App = () => {
       />
 
       {isMidiOutput ? (
-        <Device
-          device={device}
-          manufacturers={manufacturers}
-          setDevice={setDevice}
-        />
+        <Device device={device} deviceList={deviceList} setDevice={setDevice} />
       ) : (
         <h3>No Midi Devices Connected</h3>
       )}

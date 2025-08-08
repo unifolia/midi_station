@@ -2,24 +2,24 @@ import { GlobalChannelSelect } from "../styles/components";
 
 interface DeviceProps {
   device: string;
-  manufacturers: string[];
+  deviceList: string[];
   setDevice: (manufacturer: string) => void;
 }
 
-const Device = ({ device, manufacturers, setDevice }: DeviceProps) => {
+const Device = ({ device, deviceList, setDevice }: DeviceProps) => {
   return (
     <div>
       <h3>
-        MIDI Connection:
+        MIDI Device:
         <GlobalChannelSelect
           value={device}
           onChange={(e) => setDevice(e.target.value)}
           style={{ margin: "0px 0px 8px 8px" }}
         >
           <option value="">Select Device...</option>
-          {manufacturers.map((manufacturer) => (
-            <option key={manufacturer} value={manufacturer}>
-              {manufacturer}
+          {deviceList.map((d) => (
+            <option key={d} value={d}>
+              {d}
             </option>
           ))}
         </GlobalChannelSelect>
