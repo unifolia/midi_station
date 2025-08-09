@@ -6,7 +6,7 @@ export const theme = {
     surfaceGlass: "rgba(255, 255, 255, 0.05)",
     surfaceGlassBorder: "rgba(255, 255, 255, 0.15)",
     textPrimary: "#ffffff",
-    textSecondary: "#b8c5d6",
+    textSecondary: "#e4e4e4ff",
     textGlow: "#00f5ff",
   },
   gradients: {

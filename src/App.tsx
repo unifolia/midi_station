@@ -167,9 +167,11 @@ const App = () => {
 
     if (command == 11) {
       const currentForms = formsRef.current;
-      const matchingForm = currentForms.inputs.find(
-        (form) => form.midiCC === note
-      );
+      const matchingForm = currentForms.inputs.find((form) => {
+        if (form.midiChannel === status + 1 - 0xb0 && form.midiCC === note) {
+          return form;
+        }
+      });
 
       if (matchingForm) {
         setForms((prev) => ({

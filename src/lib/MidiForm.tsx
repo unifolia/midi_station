@@ -61,7 +61,6 @@ const MidiForm = ({
       const [output] = outputsArray.filter(
         (outputs) => outputs?.name === device
       );
-
       const message = [0xb0 + midiChannel - 1, midiCC, currentValue];
 
       if (output) {

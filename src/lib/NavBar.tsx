@@ -10,6 +10,7 @@ import {
   GlobalChannelLabel,
   GlobalChannelSelect,
 } from "../styles/components";
+import { Label } from "../styles/GlobalStyles";
 
 interface NavigationProps {
   handleAddInput: () => void;
@@ -32,7 +33,9 @@ const Navigation = ({
       <NavButton onClick={savePreset}>Save Preset</NavButton>
       <LoadButton>
         Upload Preset
+        <Label htmlFor="upload">Upload Preset</Label>
         <Input
+          id="upload"
           type="file"
           accept=".json"
           onChange={handleLoadPreset}
@@ -40,8 +43,11 @@ const Navigation = ({
         />
       </LoadButton>
       <GlobalChannelContainer>
-        <GlobalChannelLabel>Global MIDI Channel:</GlobalChannelLabel>
+        <GlobalChannelLabel htmlFor="global-select">
+          Global MIDI Channel:
+        </GlobalChannelLabel>
         <GlobalChannelSelect
+          id="global-select"
           value={globalMidiChannel || ""}
           onChange={(e) =>
             handleGlobalMidiChannelChange(Number(e.target.value))
