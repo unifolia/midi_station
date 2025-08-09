@@ -346,3 +346,129 @@ export const GlobalChannelSelect = styled(Select)`
 export const Input = styled.input`
   cursor: pointer;
 `;
+
+// Modal Components
+export const ModalOverlay = styled.div<{ isopened: boolean }>`
+  display: ${(props) => (props.isopened ? "flex" : "none")};
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: ${theme.spacing.md};
+`;
+
+export const ModalContent = styled.div`
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--surface-glass-border);
+  border-radius: ${theme.borderRadius.xl};
+  padding: ${theme.spacing.xl};
+  box-shadow: ${theme.shadows.glass};
+  min-width: 400px;
+  max-width: 90vw;
+  position: relative;
+`;
+
+export const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${theme.spacing.lg};
+  padding-bottom: ${theme.spacing.md};
+  border-bottom: 1px solid var(--surface-glass-border);
+`;
+
+export const ModalTitle = styled.h2`
+  margin: 0;
+  color: var(--text-primary);
+  font-size: ${theme.fonts.sizes.form};
+  font-weight: ${theme.fonts.weights.normal};
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+`;
+
+export const ModalCloseButton = styled.button`
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: ${theme.spacing.xs};
+  border-radius: 6px;
+  transition: ${theme.transitions.default};
+
+  &:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+export const ToggleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: ${theme.spacing.lg};
+`;
+
+export const ToggleLabel = styled.label`
+  color: var(--text-primary);
+  font-size: ${theme.fonts.sizes.body};
+  font-weight: ${theme.fonts.weights.normal};
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.xs};
+
+  &::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    background: var(--primary-glow);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--primary-glow);
+  }
+`;
+
+export const Toggle = styled.input`
+  appearance: none;
+  width: 50px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--surface-glass-border);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: ${theme.transitions.default};
+
+  &:checked {
+    background: rgba(0, 245, 255, 0.3);
+    border-color: var(--primary-glow);
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: ${theme.transitions.default};
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &:checked::before {
+    transform: translateX(26px);
+    background: var(--primary-glow);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+  }
+`;

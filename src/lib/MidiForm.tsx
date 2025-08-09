@@ -27,6 +27,7 @@ interface MidiFormProps {
   backgroundColor: string;
   setBackgroundColor: (s: string) => void;
   device: string;
+  handleMidiUpload: (midiChannel: number, midiCC: number, currentValue: number) => void;
 }
 
 const MidiForm = ({
@@ -42,6 +43,7 @@ const MidiForm = ({
   backgroundColor,
   setBackgroundColor,
   device,
+  handleMidiUpload,
 }: MidiFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -52,38 +54,15 @@ const MidiForm = ({
     handleLabelKeyDown,
   } = labelHandler;
 
-  const handleMidiUpload = async (currentValue: number) => {
-    try {
-      const midiAccess = await navigator.requestMIDIAccess();
-
-      const outputs = midiAccess?.outputs?.values();
-      const outputsArray = outputs ? Array.from(outputs) : [];
-      const [output] = outputsArray.filter(
-        (outputs) => outputs?.name === device
-      );
-
-      const message = [0xb0 + midiChannel - 1, midiCC, currentValue];
-
-      if (output) {
-        output.send(message);
-      }
-    } catch (error) {
-      console.error("MIDI Error:", error);
-      alert(
-        "MIDI not supported on this browser. Please check your settings, or try a different browser."
-      );
-    }
-  };
-
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
     setValue(newValue);
-    handleMidiUpload(newValue);
+    handleMidiUpload(midiChannel, midiCC, newValue);
   };
 
   useEffect(() => {
-    handleMidiUpload(value);
-  }, [device, midiChannel, midiCC]);
+    handleMidiUpload(midiChannel, midiCC, value);
+  }, [device, midiChannel, midiCC, value, handleMidiUpload]);
 
   return (
     <MidiFormContainer style={{ background: backgroundColor + "55" }}>
