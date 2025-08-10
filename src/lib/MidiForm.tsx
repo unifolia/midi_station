@@ -64,6 +64,8 @@ const MidiForm = ({
       const message = [0xb0 + midiChannel - 1, midiCC, currentValue];
 
       if (output) {
+        // PC msg v
+        // output.send([0xc0 + 2, 0]);
         output.send(message);
       }
     } catch (error) {
