@@ -177,7 +177,9 @@ const App = () => {
         setForms((prev) => ({
           ...prev,
           inputs: prev.inputs.map((form) =>
-            form.midiCC === note ? { ...form, value: velocity } : form
+            form.midiCC === note && form.midiChannel === status + 1 - 0xb0
+              ? { ...form, value: velocity }
+              : form
           ),
         }));
       }
