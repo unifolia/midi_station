@@ -53,7 +53,7 @@ const Navigation = ({
             handleGlobalMidiChannelChange(Number(e.target.value))
           }
         >
-          {Array.from({ length: 20 }, (_, i) => i + 1).map((channel) => (
+          {Array.from({ length: 16 }, (_, i) => i + 1).map((channel) => (
             <option key={channel} value={channel}>
               {channel}
             </option>

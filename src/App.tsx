@@ -17,7 +17,7 @@ interface MidiFormData {
 
 const App = () => {
   const [forms, setForms] = useState({
-    name: "MIDI Control Block Grouping",
+    name: "MIDI Control Block Group",
     inputs: [
       {
         id: 1,
@@ -275,6 +275,11 @@ const App = () => {
           />
         ))}
       </FormsContainer>
+      <footer>
+        <p style={{ marginTop: "100px", fontSize: "1.25rem" }}>
+          🝖 Midi Engineering
+        </p>
+      </footer>
     </main>
   );
 };

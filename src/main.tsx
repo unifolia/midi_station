@@ -17,6 +17,8 @@ console.log(
      `
 );
 
+console.log("Questions? Concerns? Chit-chat? Email me at james@jameslewis.io");
+
 ReactDOM.createRoot(document.getElementById("app")!).render(
   <React.StrictMode>
     <BrowserRouter basename="/messenger">

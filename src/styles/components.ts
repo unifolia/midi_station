@@ -194,7 +194,19 @@ export const FormGroup = styled.div`
     justify-content: space-between;
 
     input {
-      width: 33%;
+      width: 45%;
+      height: 40px;
+      border: none;
+      outline: 4.5px solid #3e3e3e;
+      outline-offset: -6px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.4s;
+
+      &:hover {
+        box-shadow: inset 0px 0px 0px 1px var(--primary-glow);
+      }
     }
   }
 `;

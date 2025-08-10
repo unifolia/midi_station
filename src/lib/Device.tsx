@@ -1,4 +1,5 @@
 import { GlobalChannelSelect } from "../styles/components";
+import { Label } from "../styles/GlobalStyles";
 
 interface DeviceProps {
   device: string;
@@ -11,7 +12,9 @@ const Device = ({ device, deviceList, setDevice }: DeviceProps) => {
     <div>
       <h3>
         MIDI Device:
+        <Label htmlFor="midi-device">Select MIDI Device</Label>
         <GlobalChannelSelect
+          id="midi-device"
           value={device}
           onChange={(e) => setDevice(e.target.value)}
           style={{ margin: "0px 0px 8px 8px" }}

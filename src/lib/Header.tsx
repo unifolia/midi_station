@@ -24,7 +24,7 @@ const Header = ({ name, setName }: HeaderProps) => {
 
   return (
     <>
-      <Title>MIDI Messenger</Title>
+      <Title>Messenger</Title>
       <FormClickable>
         {isEditing ? (
           <FormTitleInput

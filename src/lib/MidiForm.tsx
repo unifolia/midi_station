@@ -117,7 +117,7 @@ const MidiForm = ({
           onChange={(e) => setMidiChannel(Number(e.target.value))}
           disabled={false}
         >
-          {Array.from({ length: 20 }, (_, i) => i + 1).map((channel) => (
+          {Array.from({ length: 16 }, (_, i) => i + 1).map((channel) => (
             <option key={channel} value={channel}>
               {channel}
             </option>
@@ -132,7 +132,7 @@ const MidiForm = ({
           value={midiCC}
           onChange={(e) => setMidiCC(Number(e.target.value))}
         >
-          {Array.from({ length: 100 }, (_, i) => i + 1).map((cc) => (
+          {Array.from({ length: 127 }, (_, i) => i + 1).map((cc) => (
             <option key={cc} value={cc}>
               {cc}
             </option>
@@ -159,16 +159,6 @@ const MidiForm = ({
           type="color"
           value={backgroundColor}
           onChange={(e) => setBackgroundColor(e.target.value)}
-          style={{
-            width: "45%",
-            height: "40px",
-            border: "none",
-            outline: "5px solid #3e3e3e",
-            outlineOffset: "-6px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            background: "transparent",
-          }}
         />
       </FormGroup>
     </MidiFormContainer>

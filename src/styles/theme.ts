@@ -1,7 +1,7 @@
 export const theme = {
   colors: {
     primaryGlow: "#00f5ff",
-    secondaryGlow: "#ff00ff",
+    secondaryGlow: "#ff288c",
     accentGlow: "#00ff88",
     surfaceGlass: "rgba(255, 255, 255, 0.05)",
     surfaceGlassBorder: "rgba(255, 255, 255, 0.15)",
