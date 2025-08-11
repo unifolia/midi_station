@@ -70,6 +70,9 @@ export const theme = {
     rangeThumbHover:
       "0 0 20px rgba(0, 245, 255, 0.7), 0 6px 12px rgba(0, 0, 0, 0.4)",
   },
+  breakpoints: {
+    big: "1440px",
+  },
 } as const;
 
 export type Theme = typeof theme;

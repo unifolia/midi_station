@@ -12,6 +12,7 @@ import {
   FormLabel,
   Select,
   RangeInput,
+  ColorPicker,
 } from "../styles/components";
 
 interface MidiFormProps {
@@ -154,7 +155,7 @@ const MidiForm = ({
         />
       </FormGroup>
 
-      <FormGroup className="color-picker">
+      <ColorPicker className="color-picker">
         <FormLabel htmlFor="color-picker">Background:</FormLabel>
         <input
           id="color-picker"
@@ -162,7 +163,7 @@ const MidiForm = ({
           value={backgroundColor}
           onChange={(e) => setBackgroundColor(e.target.value)}
         />
-      </FormGroup>
+      </ColorPicker>
     </MidiFormContainer>
   );
 };

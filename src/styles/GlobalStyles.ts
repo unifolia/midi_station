@@ -67,6 +67,9 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0 auto;
     padding: ${theme.spacing.xl};
     text-align: center;
+    @media (min-width: ${theme.breakpoints.big}) {
+      max-width: 1400px;
+    }
   }
 `;
 
