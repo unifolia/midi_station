@@ -285,7 +285,7 @@ const App = () => {
       </FormsContainer>
       <footer>
         <p style={{ marginTop: "100px", fontSize: "1.25rem" }}>
-          🝖 Midi Engineering
+          𐙦 Midi Engineering
         </p>
       </footer>
     </main>
