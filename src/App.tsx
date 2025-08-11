@@ -38,11 +38,16 @@ const App = () => {
   const [device, setDevice] = useState("");
   const [deviceList, setDeviceList] = useState<string[]>([]);
   const formsRef = useRef(forms);
+  const deviceRef = useRef(device);
 
-  // Update the ref whenever forms changes
+  // Update the refs whenever forms or device changes
   useEffect(() => {
     formsRef.current = forms;
   }, [forms]);
+
+  useEffect(() => {
+    deviceRef.current = device;
+  }, [device]);
 
   const handleGlobalMidiChannelChange = (newGlobalChannel: number) => {
     setGlobalMidiChannel(newGlobalChannel);
@@ -158,31 +163,33 @@ const App = () => {
     }
   };
 
-  const handleMIDIMessage = useCallback((event: any) => {
-    const [status, data1, data2] = event.data;
-    const command = status >> 4;
-    const note = data1;
-    const velocity = data2;
-    if (command == 11) {
-      const currentForms = formsRef.current;
-      const matchingForm = currentForms.inputs.find((form) => {
-        if (form.midiChannel === status + 1 - 0xb0 && form.midiCC === note) {
-          return form;
-        }
-      });
+  const handleMIDIMessage = (event: any) => {
+    if (event.target.name === deviceRef.current) {
+      const [status, data1, data2] = event.data;
+      const command = status >> 4;
+      const note = data1;
+      const velocity = data2;
+      if (command == 11) {
+        const currentForms = formsRef.current;
+        const matchingForm = currentForms.inputs.find((form) => {
+          if (form.midiChannel === status + 1 - 0xb0 && form.midiCC === note) {
+            return form;
+          }
+        });
 
-      if (matchingForm) {
-        setForms((prev) => ({
-          ...prev,
-          inputs: prev.inputs.map((form) =>
-            form.midiChannel === status + 1 - 0xb0 && form.midiCC === note
-              ? { ...form, value: velocity }
-              : form
-          ),
-        }));
+        if (matchingForm) {
+          setForms((prev) => ({
+            ...prev,
+            inputs: prev.inputs.map((form) =>
+              form.midiChannel === status + 1 - 0xb0 && form.midiCC === note
+                ? { ...form, value: velocity }
+                : form
+            ),
+          }));
+        }
       }
     }
-  }, []);
+  };
 
   useEffect(() => {
     if (navigator.requestMIDIAccess) {
