@@ -202,7 +202,7 @@ export const FormGroup = styled.div`
       border-radius: 8px;
       cursor: pointer;
       background: transparent;
-      transition: all 0.4s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
         box-shadow: inset 0px 0px 0px 1px var(--primary-glow);
