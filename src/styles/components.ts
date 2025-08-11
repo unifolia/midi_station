@@ -54,7 +54,7 @@ export const FormsContainer = styled.div`
 `;
 
 export const MidiFormContainer = styled.div`
-  width: calc(33% - 1rem);
+  width: calc(33% - 0.875rem);
   box-sizing: border-box;
   background: var(--surface-glass);
   backdrop-filter: blur(20px);
@@ -72,6 +72,10 @@ export const MidiFormContainer = styled.div`
 
   @media (max-width: 700px) {
     width: 100%;
+  }
+
+  @media (min-width: ${theme.breakpoints.big}) {
+    width: calc(25% - 18px);
   }
 `;
 
@@ -184,29 +188,31 @@ export const FormClickable = styled.div`
 `;
 
 export const FormGroup = styled.div`
-  margin-bottom: ${theme.spacing.lg};
+  margin-bottom: ${theme.spacing.md};
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.xs};
+`;
 
-  &.color-picker {
-    flex-direction: row;
-    justify-content: space-between;
+export const ColorPicker = styled(FormGroup)`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
 
-    input {
-      width: 45%;
-      height: 40px;
-      border: none;
-      outline: 4.5px solid #3e3e3e;
-      outline-offset: -6px;
-      border-radius: 8px;
-      cursor: pointer;
-      background: transparent;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  input {
+    width: 45%;
+    height: 40px;
+    border: none;
+    outline: 4.5px solid #3e3e3e;
+    outline-offset: -6px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-      &:hover {
-        box-shadow: inset 0px 0px 0px 1px var(--primary-glow);
-      }
+    &:hover {
+      box-shadow: inset 0px 0px 0px 1px var(--primary-glow);
     }
   }
 `;
