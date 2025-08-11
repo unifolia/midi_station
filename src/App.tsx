@@ -160,11 +160,9 @@ const App = () => {
 
   const handleMIDIMessage = useCallback((event: any) => {
     const [status, data1, data2] = event.data;
-
     const command = status >> 4;
     const note = data1;
     const velocity = data2;
-
     if (command == 11) {
       const currentForms = formsRef.current;
       const matchingForm = currentForms.inputs.find((form) => {
@@ -177,7 +175,9 @@ const App = () => {
         setForms((prev) => ({
           ...prev,
           inputs: prev.inputs.map((form) =>
-            form.midiCC === note ? { ...form, value: velocity } : form
+            form.midiChannel === status + 1 - 0xb0 && form.midiCC === note
+              ? { ...form, value: velocity }
+              : form
           ),
         }));
       }
