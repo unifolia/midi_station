@@ -164,6 +164,7 @@ const App = () => {
   };
 
   const handleMIDIMessage = (event: any) => {
+    // Currently must be same MIDI device send/receive, but remove this to change
     if (event.target.name === deviceRef.current) {
       const [status, data1, data2] = event.data;
       const command = status >> 4;
