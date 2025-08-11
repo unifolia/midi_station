@@ -164,32 +164,32 @@ const App = () => {
   };
 
   const handleMIDIMessage = useCallback((event: any) => {
-    // Currently must be same MIDI device send/receive, but remove this to change
-    if (event.target.name === deviceRef.current) {
-      const [status, data1, data2] = event.data;
-      const command = status >> 4;
-      const note = data1;
-      const velocity = data2;
-      if (command == 11) {
-        const currentForms = formsRef.current;
-        const matchingForm = currentForms.inputs.find((form) => {
-          if (form.midiChannel === status + 1 - 0xb0 && form.midiCC === note) {
-            return form;
-          }
-        });
-
-        if (matchingForm) {
-          setForms((prev) => ({
-            ...prev,
-            inputs: prev.inputs.map((form) =>
-              form.midiChannel === status + 1 - 0xb0 && form.midiCC === note
-                ? { ...form, value: velocity }
-                : form
-            ),
-          }));
+    // v Only allow MIDI receive from selected device
+    // if (event.target.name === deviceRef.current) {
+    const [status, data1, data2] = event.data;
+    const command = status >> 4;
+    const note = data1;
+    const velocity = data2;
+    if (command == 11) {
+      const currentForms = formsRef.current;
+      const matchingForm = currentForms.inputs.find((form) => {
+        if (form.midiChannel === status + 1 - 0xb0 && form.midiCC === note) {
+          return form;
         }
+      });
+
+      if (matchingForm) {
+        setForms((prev) => ({
+          ...prev,
+          inputs: prev.inputs.map((form) =>
+            form.midiChannel === status + 1 - 0xb0 && form.midiCC === note
+              ? { ...form, value: velocity }
+              : form
+          ),
+        }));
       }
     }
+    // }
   }, []);
 
   useEffect(() => {
